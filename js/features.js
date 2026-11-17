@@ -16,14 +16,6 @@ const DragDropManager = {
     createPlaceholder() {
         this.placeholder = document.createElement('div');
         this.placeholder.className = 'drag-placeholder';
-        this.placeholder.style.cssText = `
-            height: 4px;
-            background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
-            border-radius: 2px;
-            margin: 4px 0;
-            opacity: 0;
-            transition: opacity 0.2s;
-        `;
     },
 
     bindEvents() {
@@ -187,12 +179,6 @@ const KeyboardManager = {
         this.register('y', () => App.redo(), { ctrl: true });
         this.register('f', () => App.openSearch(), { ctrl: true });
         this.register('k', () => App.openCommandPalette(), { ctrl: true });
-
-        this.register('Tab', (e) => {
-            if (this.selectedItemId) {
-                e.preventDefault();
-            }
-        });
 
         this.register('Escape', () => {
             this.clearSelection();

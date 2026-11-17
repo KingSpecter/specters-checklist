@@ -4,30 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Specter's Checklist</title>
+    <link rel="icon" href="data:,">
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Ambient Background Effects -->
-    <div class="ambient-bg">
-        <div class="gradient-orb orb-1"></div>
-        <div class="gradient-orb orb-2"></div>
-        <div class="gradient-orb orb-3"></div>
-    </div>
-
-    <!-- Main Application Container -->
     <div class="app-container">
-        <!-- Header -->
+
         <header class="app-header">
             <div class="header-left">
                 <div class="logo">
-                    <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M9 11l3 3L22 4"/>
-                        <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+                    <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M4 12l5 5L20 6"/>
                     </svg>
-                    <span class="logo-text">Specter</span>
+                    <span class="logo-text">Specter's Checklist</span>
                 </div>
             </div>
             <div class="header-center">
@@ -36,28 +25,28 @@
                         <circle cx="11" cy="11" r="8"/>
                         <path d="M21 21l-4.35-4.35"/>
                     </svg>
-                    <input type="text" class="search-input" id="globalSearch" placeholder="Search items... (Ctrl+F)">
-                    <kbd class="search-kbd">⌘K</kbd>
+                    <input type="text" class="search-input" id="globalSearch" placeholder="Search items" aria-label="Search items">
+                    <kbd class="search-kbd">Ctrl K</kbd>
                 </div>
             </div>
             <div class="header-right">
-                <button class="header-btn" id="statsBtn" title="Statistics">
+                <button class="header-btn" id="statsBtn" title="Statistics" aria-label="Statistics">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M18 20V10M12 20V4M6 20v-6"/>
                     </svg>
                 </button>
-                <button class="header-btn" id="undoBtn" title="Undo (Ctrl+Z)">
+                <button class="header-btn" id="undoBtn" title="Undo (Ctrl+Z)" aria-label="Undo">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M3 7v6h6M3 13c0-4.97 4.03-9 9-9a9 9 0 016.36 2.64"/>
                     </svg>
                 </button>
-                <button class="header-btn" id="redoBtn" title="Redo (Ctrl+Y)">
+                <button class="header-btn" id="redoBtn" title="Redo (Ctrl+Y)" aria-label="Redo">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M21 7v6h-6M21 13c0-4.97-4.03-9-9-9a9 9 0 00-6.36 2.64"/>
                     </svg>
                 </button>
                 <div class="header-divider"></div>
-                <button class="header-btn" id="themeToggle" title="Toggle Theme (D)">
+                <button class="header-btn" id="themeToggle" title="Light or dark (D)" aria-label="Switch theme">
                     <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="12" cy="12" r="5"/>
                         <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
@@ -66,23 +55,21 @@
                         <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
                     </svg>
                 </button>
-                <button class="header-btn" id="settingsBtn" title="Settings">
+                <button class="header-btn" id="settingsBtn" title="Settings" aria-label="Settings">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="3"/>
-                        <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
+                        <path d="M4 6h8M18 6h2M4 12h2M12 12h8M4 18h10M20 18h0"/>
+                        <circle cx="15" cy="6" r="2.5"/>
+                        <circle cx="9" cy="12" r="2.5"/>
+                        <circle cx="17" cy="18" r="2.5"/>
                     </svg>
                 </button>
             </div>
         </header>
 
-        <!-- Quick Add Bar -->
         <div class="quick-add-container">
             <div class="quick-add-bar">
-                <svg class="quick-add-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="10"/>
-                    <path d="M12 8v8M8 12h8"/>
-                </svg>
-                <input type="text" class="quick-add-input" id="quickAddInput" placeholder="Add new item... (N) — Use #tag !priority @due">
+                <span class="quick-add-icon" aria-hidden="true">+</span>
+                <input type="text" class="quick-add-input" id="quickAddInput" placeholder="Add an item and press Enter" aria-label="Add an item">
                 <div class="quick-add-hints">
                     <span class="hint-tag">#tag</span>
                     <span class="hint-priority">!high</span>
@@ -91,21 +78,17 @@
             </div>
         </div>
 
-        <!-- Main Content Area -->
         <main class="main-content">
-            <!-- Sidebar for Sections -->
             <aside class="sidebar" id="sidebar">
                 <div class="sidebar-header">
                     <h3>Sections</h3>
-                    <button class="sidebar-add-btn" id="addSectionBtn" title="Add Section (S)">
+                    <button class="sidebar-add-btn" id="addSectionBtn" title="New section (S)" aria-label="New section">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M12 5v14M5 12h14"/>
                         </svg>
                     </button>
                 </div>
-                <nav class="section-nav" id="sectionNav">
-                    <!-- Sections will be rendered here -->
-                </nav>
+                <nav class="section-nav" id="sectionNav"></nav>
                 <div class="sidebar-footer">
                     <div class="overall-progress">
                         <div class="progress-ring-container">
@@ -116,53 +99,29 @@
                             <span class="progress-ring-text" id="overallProgressText">0%</span>
                         </div>
                         <div class="progress-info">
-                            <span class="progress-label">Overall Progress</span>
+                            <span class="progress-label">All sections</span>
                             <span class="progress-detail" id="overallProgressDetail">0 of 0 completed</span>
                         </div>
                     </div>
                 </div>
             </aside>
 
-            <!-- Checklist Content -->
             <div class="content-area" id="contentArea">
-                <!-- Empty State -->
                 <div class="empty-state" id="emptyState">
-                    <div class="empty-illustration">
-                        <svg viewBox="0 0 200 200" fill="none">
-                            <circle cx="100" cy="100" r="80" stroke="currentColor" stroke-width="2" stroke-dasharray="8 4" opacity="0.3"/>
-                            <rect x="60" y="60" width="80" height="100" rx="8" stroke="currentColor" stroke-width="2" opacity="0.5"/>
-                            <path d="M75 90h50M75 110h35M75 130h45" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
-                            <circle cx="68" cy="90" r="4" fill="currentColor" opacity="0.4"/>
-                            <circle cx="68" cy="110" r="4" fill="currentColor" opacity="0.4"/>
-                            <circle cx="68" cy="130" r="4" fill="currentColor" opacity="0.4"/>
-                        </svg>
-                    </div>
-                    <h2>Your checklist awaits</h2>
-                    <p>Create your first section to get started, or use the quick add bar above.</p>
-                    <button class="cta-button" id="createFirstSection">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 5v14M5 12h14"/>
-                        </svg>
-                        Create First Section
-                    </button>
+                    <h2>No sections yet</h2>
+                    <p>A section holds a list of items. Add one, then type items into the bar above.</p>
+                    <button class="cta-button" id="createFirstSection">New section</button>
                 </div>
 
-                <!-- Checklist Container (hidden when empty) -->
-                <div class="checklist-container" id="checklistContainer">
-                    <!-- Sections and items will be rendered here -->
-                </div>
+                <div class="checklist-container" id="checklistContainer"></div>
             </div>
         </main>
     </div>
 
-    <!-- Context Menu -->
     <div class="context-menu" id="contextMenu">
-        <div class="context-menu-content">
-            <!-- Menu items will be dynamically inserted -->
-        </div>
+        <div class="context-menu-content"></div>
     </div>
 
-    <!-- Command Palette -->
     <div class="command-palette-overlay" id="commandPaletteOverlay">
         <div class="command-palette">
             <div class="command-palette-header">
@@ -170,67 +129,50 @@
                     <circle cx="11" cy="11" r="8"/>
                     <path d="M21 21l-4.35-4.35"/>
                 </svg>
-                <input type="text" class="command-palette-input" id="commandPaletteInput" placeholder="Type a command or search...">
+                <input type="text" class="command-palette-input" id="commandPaletteInput" placeholder="Type a command or search" aria-label="Command or search">
             </div>
-            <div class="command-palette-results" id="commandPaletteResults">
-                <!-- Results will be rendered here -->
-            </div>
+            <div class="command-palette-results" id="commandPaletteResults"></div>
             <div class="command-palette-footer">
-                <span><kbd>↑↓</kbd> Navigate</span>
-                <span><kbd>Enter</kbd> Select</span>
-                <span><kbd>Esc</kbd> Close</span>
+                <span><kbd>Up</kbd> <kbd>Down</kbd> move</span>
+                <span><kbd>Enter</kbd> run</span>
+                <span><kbd>Esc</kbd> close</span>
             </div>
         </div>
     </div>
 
-    <!-- Modal Overlay -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal" id="modal">
             <div class="modal-header">
-                <h3 class="modal-title" id="modalTitle">Modal Title</h3>
-                <button class="modal-close" id="modalClose">
+                <h3 class="modal-title" id="modalTitle"></h3>
+                <button class="modal-close" id="modalClose" aria-label="Close">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M18 6L6 18M6 6l12 12"/>
                     </svg>
                 </button>
             </div>
-            <div class="modal-body" id="modalBody">
-                <!-- Modal content will be inserted here -->
-            </div>
-            <div class="modal-footer" id="modalFooter">
-                <!-- Modal actions will be inserted here -->
-            </div>
+            <div class="modal-body" id="modalBody"></div>
+            <div class="modal-footer" id="modalFooter"></div>
         </div>
     </div>
 
-    <!-- Statistics Panel -->
     <div class="stats-panel" id="statsPanel">
         <div class="stats-panel-header">
             <h3>Statistics</h3>
-            <button class="stats-close" id="statsClose">
+            <button class="stats-close" id="statsClose" aria-label="Close">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M18 6L6 18M6 6l12 12"/>
                 </svg>
             </button>
         </div>
-        <div class="stats-panel-content" id="statsPanelContent">
-            <!-- Stats will be rendered here -->
-        </div>
+        <div class="stats-panel-content" id="statsPanelContent"></div>
     </div>
 
-    <!-- Toast Container -->
-    <div class="toast-container" id="toastContainer">
-        <!-- Toasts will be added here -->
-    </div>
+    <div class="toast-container" id="toastContainer"></div>
 
-    <!-- Date Picker (Hidden by default) -->
     <div class="date-picker-overlay" id="datePickerOverlay">
-        <div class="date-picker" id="datePicker">
-            <!-- Date picker will be rendered here -->
-        </div>
+        <div class="date-picker" id="datePicker"></div>
     </div>
 
-    <!-- Scripts -->
     <script src="js/data.js"></script>
     <script src="js/components.js"></script>
     <script src="js/features.js"></script>

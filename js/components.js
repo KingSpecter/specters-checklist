@@ -180,9 +180,7 @@ const Modal = {
             let resolved = false;
 
             const footer = document.createElement('div');
-            footer.style.display = 'flex';
-            footer.style.gap = '8px';
-            footer.style.justifyContent = 'flex-end';
+            footer.className = 'modal-actions';
 
             const cancelBtn = document.createElement('button');
             cancelBtn.className = 'btn btn-secondary';
@@ -211,7 +209,7 @@ const Modal = {
 
             this.open({
                 title,
-                body: `<p style="color: var(--text-secondary);">${message}</p>`,
+                body: `<p class="modal-hint">${message}</p>`,
                 footer,
                 onClose: () => {
                     if (resolved) return;
@@ -230,8 +228,7 @@ const Modal = {
             const body = document.createElement('div');
             if (message) {
                 const p = document.createElement('p');
-                p.style.color = 'var(--text-secondary)';
-                p.style.marginBottom = 'var(--space-md)';
+                p.className = 'modal-hint';
                 p.textContent = message;
                 body.appendChild(p);
             }
@@ -244,9 +241,7 @@ const Modal = {
             body.appendChild(input);
 
             const footer = document.createElement('div');
-            footer.style.display = 'flex';
-            footer.style.gap = '8px';
-            footer.style.justifyContent = 'flex-end';
+            footer.className = 'modal-actions';
 
             const cancelBtn = document.createElement('button');
             cancelBtn.className = 'btn btn-secondary';
@@ -413,10 +408,8 @@ function renderSection(section, depth = 0) {
         </div>
         <div class="section-content">
             <div class="section-items" data-section-id="${section.id}">
-                <!-- Items will be rendered here -->
             </div>
             <div class="section-children">
-                <!-- Child sections will be rendered here -->
             </div>
             <button class="add-item-btn" data-section-id="${section.id}">
                 ${Icons.plus}
@@ -480,9 +473,12 @@ function renderItem(item, sectionId) {
             <span class="item-checkbox-visual">${Icons.check}</span>
         </label>
         <div class="item-content">
-            <p class="item-text">${escapeHtml(item.text)}</p>
+            <div class="item-line">
+                <p class="item-text">${escapeHtml(item.text)}</p>
+                <span class="item-leader"></span>
+                ${metaHtml ? `<div class="item-meta">${metaHtml}</div>` : ''}
+            </div>
             ${item.description ? `<p class="item-description">${escapeHtml(item.description)}</p>` : ''}
-            ${metaHtml ? `<div class="item-meta">${metaHtml}</div>` : ''}
         </div>
         <div class="item-actions">
             <button class="item-action-btn" data-action="edit" title="Edit (E)">
@@ -535,45 +531,39 @@ function renderStatistics() {
 
     content.innerHTML = `
         <div class="stats-card">
-            <div class="stats-card-title">Overall Progress</div>
+            <div class="stats-card-title">Done</div>
             <div class="stats-value">${stats.percentage}%</div>
-            <div class="stats-label">${stats.completed} of ${stats.total} items completed</div>
+            <div class="stats-label">${stats.completed} of ${stats.total} items</div>
         </div>
 
         <div class="stats-card">
-            <div class="stats-card-title">Current Streak</div>
-            <div class="stats-streak">
-                <span class="stats-streak-icon">🔥</span>
-                <div>
-                    <div class="stats-value">${stats.currentStreak}</div>
-                    <div class="stats-label">days in a row</div>
-                </div>
-            </div>
-            <div class="stats-label" style="margin-top: var(--space-sm);">Longest streak: ${stats.longestStreak} days</div>
+            <div class="stats-card-title">Streak</div>
+            <div class="stats-value">${stats.currentStreak} <small>${stats.currentStreak === 1 ? "day" : "days"} in a row</small></div>
+            <div class="stats-label">Longest: ${stats.longestStreak} ${stats.longestStreak === 1 ? "day" : "days"}</div>
         </div>
 
         <div class="stats-card">
-            <div class="stats-card-title">This Week</div>
+            <div class="stats-card-title">This week</div>
             <div class="stats-bar-chart">
                 ${stats.weeklyData.map(d => `
                     <div class="stats-bar" style="height: ${(d.count / maxDaily) * 100}%" title="${d.day}: ${d.count} completed"></div>
                 `).join('')}
             </div>
-            <div style="display: flex; justify-content: space-between; margin-top: var(--space-sm);">
-                ${stats.weeklyData.map(d => `<span style="font-size: var(--font-size-xs); color: var(--text-muted);">${d.day}</span>`).join('')}
+            <div class="stats-days">
+                ${stats.weeklyData.map(d => `<span>${d.day}</span>`).join('')}
             </div>
         </div>
 
         <div class="stats-card">
-            <div class="stats-card-title">All Time</div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md);">
+            <div class="stats-card-title">All time</div>
+            <div class="stats-pair">
                 <div>
-                    <div class="stats-value" style="font-size: var(--font-size-xl);">${stats.totalCreated}</div>
-                    <div class="stats-label">Items created</div>
+                    <div class="stats-value">${stats.totalCreated}</div>
+                    <div class="stats-label">created</div>
                 </div>
                 <div>
-                    <div class="stats-value" style="font-size: var(--font-size-xl);">${stats.totalCompleted}</div>
-                    <div class="stats-label">Items completed</div>
+                    <div class="stats-value">${stats.totalCompleted}</div>
+                    <div class="stats-label">completed</div>
                 </div>
             </div>
         </div>
@@ -587,9 +577,7 @@ function renderCommandPaletteResults(query, results) {
 
     if (results.length === 0) {
         container.innerHTML = `
-            <div style="padding: var(--space-xl); text-align: center; color: var(--text-muted);">
-                No results found
-            </div>
+            <div class="command-palette-empty">No results</div>
         `;
         return;
     }

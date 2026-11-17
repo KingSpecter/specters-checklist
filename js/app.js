@@ -12,7 +12,7 @@ const App = {
 
         if (DataManager.data.sections.length === 0) {
             setTimeout(() => {
-                Toast.info('Welcome to Specter\'s Checklist! Create your first section to get started.');
+                Toast.info('Add a section to start. Press ? for the shortcuts.');
             }, 500);
         }
     },
@@ -265,7 +265,7 @@ const App = {
         body.appendChild(colorGroup);
 
         const footer = document.createElement('div');
-        footer.style.cssText = 'display: flex; gap: 8px; justify-content: flex-end;';
+        footer.className = 'modal-actions';
 
         const cancelBtn = document.createElement('button');
         cancelBtn.className = 'btn btn-secondary';
@@ -346,7 +346,7 @@ const App = {
         });
 
         const footer = document.createElement('div');
-        footer.style.cssText = 'display: flex; gap: 8px; justify-content: flex-end;';
+        footer.className = 'modal-actions';
 
         const cancelBtn = document.createElement('button');
         cancelBtn.className = 'btn btn-secondary';
@@ -432,7 +432,7 @@ const App = {
         }
 
         if (!wasCompleted) {
-            Toast.success('Item completed! 🎉');
+            Toast.success('Item completed');
         }
     },
 
@@ -484,7 +484,7 @@ const App = {
         `;
 
         const footer = document.createElement('div');
-        footer.style.cssText = 'display: flex; gap: 8px; justify-content: flex-end;';
+        footer.className = 'modal-actions';
 
         const cancelBtn = document.createElement('button');
         cancelBtn.className = 'btn btn-secondary';
@@ -582,18 +582,18 @@ const App = {
         if (!found) return;
 
         const body = document.createElement('div');
-        body.style.cssText = 'display: flex; gap: 8px; justify-content: center; padding: 16px;';
+        body.className = 'choice-row';
 
         const priorities = [
-            { value: 'low', label: 'Low', color: 'var(--priority-low)' },
-            { value: 'medium', label: 'Medium', color: 'var(--priority-medium)' },
-            { value: 'high', label: 'High', color: 'var(--priority-high)' }
+            { value: 'low', label: 'Low' },
+            { value: 'medium', label: 'Medium' },
+            { value: 'high', label: 'High' }
         ];
 
         priorities.forEach(p => {
             const btn = document.createElement('button');
             btn.className = 'btn ' + (found.item.priority === p.value ? 'btn-primary' : 'btn-secondary');
-            btn.innerHTML = `<span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${p.color};margin-right:6px;"></span>${p.label}`;
+            btn.innerHTML = `<span class="dot priority-${p.value}"></span>${p.label}`;
             btn.onclick = () => {
                 HistoryManager.record('updateItem', { itemId });
                 DataManager.updateItem(itemId, { priority: p.value });
@@ -612,7 +612,7 @@ const App = {
         if (!found) return;
 
         const body = document.createElement('div');
-        body.style.cssText = 'display: flex; flex-direction: column; gap: 8px; padding: 8px;';
+        body.className = 'choice-list';
 
         const options = [
             { value: null, label: 'Not recurring' },
@@ -625,7 +625,6 @@ const App = {
             const btn = document.createElement('button');
             btn.className = 'btn ' + (found.item.recurring === opt.value ? 'btn-primary' : 'btn-secondary');
             btn.textContent = opt.label;
-            btn.style.justifyContent = 'flex-start';
             btn.onclick = () => {
                 HistoryManager.record('updateItem', { itemId });
                 DataManager.updateItem(itemId, { recurring: opt.value });
@@ -682,18 +681,18 @@ const App = {
         if (!found) return;
 
         const body = document.createElement('div');
-        body.innerHTML = '<p style="color: var(--text-secondary); margin-bottom: 16px;">Select destination section:</p>';
+        body.innerHTML = '<p class="modal-hint">Move to:</p>';
 
         const list = document.createElement('div');
-        list.style.cssText = 'display: flex; flex-direction: column; gap: 4px; max-height: 300px; overflow-y: auto;';
+        list.className = 'choice-list scroll';
 
         const renderSectionOption = (section, depth = 0) => {
             if (section.id === found.section.id) return; // Skip current section
 
             const btn = document.createElement('button');
             btn.className = 'btn btn-secondary';
-            btn.style.cssText = `justify-content: flex-start; padding-left: ${16 + depth * 16}px;`;
-            btn.innerHTML = `<span style="width:10px;height:10px;border-radius:50%;background:${section.color};margin-right:8px;"></span>${escapeHtml(section.name)}`;
+            btn.style.paddingLeft = `${16 + depth * 16}px`;
+            btn.innerHTML = `<span class="dot" style="background: ${section.color}"></span>${escapeHtml(section.name)}`;
             btn.onclick = () => {
                 HistoryManager.record('moveItem', { itemId, fromSection: found.section.id, toSection: section.id });
                 DataManager.moveItem(itemId, section.id, section.items.length);
@@ -732,13 +731,13 @@ const App = {
         const body = document.createElement('div');
         body.innerHTML = `
             <div class="form-group">
-                <label class="form-label" style="display: flex; align-items: center; justify-content: space-between;">
+                <label class="form-label switch-row">
                     <span>Confirm before deleting</span>
                     <input type="checkbox" id="settingConfirmDelete" ${settings.confirmDelete ? 'checked' : ''}>
                 </label>
             </div>
             <div class="form-group">
-                <label class="form-label" style="display: flex; align-items: center; justify-content: space-between;">
+                <label class="form-label switch-row">
                     <span>Show completed items</span>
                     <input type="checkbox" id="settingShowCompleted" ${settings.showCompleted ? 'checked' : ''}>
                 </label>
@@ -754,7 +753,7 @@ const App = {
         `;
 
         const footer = document.createElement('div');
-        footer.style.cssText = 'display: flex; gap: 8px; justify-content: flex-end;';
+        footer.className = 'modal-actions';
 
         const saveBtn = document.createElement('button');
         saveBtn.className = 'btn btn-primary';
