@@ -763,8 +763,11 @@ const DataManager = {
 
 // ---- Undo/Redo history manager ----
 const HistoryManager = {
+    // each entry holds the state from just before its action; currentIndex is the last action still applied
     history: [],
     currentIndex: -1,
+    // the state after the newest action, kept so redo can get back to it
+    tip: null,
     maxHistory: 50,
 
     init() {
@@ -779,10 +782,12 @@ const HistoryManager = {
                 const parsed = JSON.parse(historyStr);
                 this.history = parsed.history || [];
                 this.currentIndex = parsed.currentIndex ?? -1;
+                this.tip = parsed.tip || null;
             }
         } catch (e) {
             this.history = [];
             this.currentIndex = -1;
+            this.tip = null;
         }
     },
 
@@ -790,7 +795,8 @@ const HistoryManager = {
         try {
             localStorage.setItem(STORAGE_KEYS.HISTORY, JSON.stringify({
                 history: this.history.slice(-this.maxHistory),
-                currentIndex: this.currentIndex
+                currentIndex: this.currentIndex,
+                tip: this.tip
             }));
         } catch (e) {
             console.error('Failed to save history:', e);
@@ -811,6 +817,7 @@ const HistoryManager = {
         });
 
         this.currentIndex = this.history.length - 1;
+        this.tip = null;
 
         if (this.history.length > this.maxHistory) {
             this.history = this.history.slice(-this.maxHistory);
@@ -821,48 +828,49 @@ const HistoryManager = {
     },
 
     canUndo() {
-        return this.currentIndex > 0;
+        return this.currentIndex >= 0;
     },
 
     canRedo() {
         return this.currentIndex < this.history.length - 1;
     },
 
+    restore(snapshot) {
+        DataManager.data = JSON.parse(snapshot);
+        DataManager.save();
+        this.saveHistory();
+    },
+
     undo() {
         if (!this.canUndo()) return null;
 
-        this.currentIndex--;
-        const entry = this.history[this.currentIndex];
-
-        if (entry && entry.snapshot) {
-            DataManager.data = JSON.parse(entry.snapshot);
-            DataManager.save();
-            this.saveHistory();
-            return entry;
+        if (this.currentIndex === this.history.length - 1) {
+            this.tip = JSON.stringify(DataManager.data);
         }
-
-        return null;
+        const entry = this.history[this.currentIndex];
+        this.currentIndex--;
+        this.restore(entry.snapshot);
+        return entry;
     },
 
     redo() {
         if (!this.canRedo()) return null;
 
         this.currentIndex++;
-        const entry = this.history[this.currentIndex];
-
-        if (entry && entry.snapshot) {
-            DataManager.data = JSON.parse(entry.snapshot);
-            DataManager.save();
-            this.saveHistory();
-            return entry;
+        const next = this.history[this.currentIndex + 1];
+        const snapshot = next ? next.snapshot : this.tip;
+        if (!snapshot) {
+            this.currentIndex--;
+            return null;
         }
-
-        return null;
+        this.restore(snapshot);
+        return this.history[this.currentIndex];
     },
 
     clear() {
         this.history = [];
         this.currentIndex = -1;
+        this.tip = null;
         localStorage.removeItem(STORAGE_KEYS.HISTORY);
     }
 };
